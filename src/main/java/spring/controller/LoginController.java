@@ -1,5 +1,6 @@
 package spring.controller;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import spring.model.User;
 import spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class LoginController {
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping(value = "login")
     public String loginPage() {
