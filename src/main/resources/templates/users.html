@@ -3,9 +3,7 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
+
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -39,9 +37,6 @@
             <ul class="nav nav-pills flex-column" th:each="role : ${user.roles}" th:switch="${role.role}">
                 <li class="nav-item" th:case="'ADMIN'">
                     <a class="nav-link active" href="#ADMIN" data-toggle="tab">ADMIN</a>
-                    <a class="nav-link" href="#USER" data-toggle="tab">USER</a>
-                </li>
-                <li th:case="USER">
                     <a class="nav-link" href="#USER" data-toggle="tab">USER</a>
                 </li>
             </ul>
@@ -81,11 +76,7 @@
                                                     <td><b>Delete</b></td>
                                                     </thead>
 
-                                                    <tbody th:each="message :${messages}">
-                                                    <td th:utext="${message.id}"></td>
-                                                    <td th:utext="${message.firstName}"></td>
-                                                    <td th:utext="${message.lastName}"></td>
-                                                    <td th:utext="${message.email}"></td>
+                                                    <tbody id="body" th:each="message :${messages}">
                                                     <td>
                                                         <div th:each="role : ${message.roles}"
                                                              th:utext="${role.role}">
@@ -260,48 +251,48 @@
                             <div class="tab-pane" id="new">
                                 <div class="list-group">
                                     <a class="list-group-item list-group-item-action list-group-item-secondary"><strong>Add
-                                        new
-                                        user</strong></a>
+                                        new user</strong></a>
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="container-fluid">
                                                 <div class="row justify-content-center">
-                                                    <form action="/admin/add" method="post" th:object="${newUser}"
+                                                    <form th:id="addUser"
                                                           class="text-center col-4">
                                                         <div class="form-group">
                                                             <strong>First Name</strong>
-                                                            <input th:field="${newUser.firstName}" type="text"
+                                                            <input th:value="${newUser.firstName}" type="text"
                                                                    class="form-control"
-                                                                   placeholder="First Name">
+                                                                   placeholder="First Name" id="firstName">
                                                         </div>
                                                         <div class="form-group">
                                                             <strong>Last Name</strong>
-                                                            <input th:field="${newUser.lastName}" type="text"
+                                                            <input th:value="${newUser.lastName}" type="text"
                                                                    class="form-control"
-                                                                   placeholder="Last Name">
+                                                                   placeholder="Last Name" id="lastName">
                                                         </div>
                                                         <div class="form-group">
                                                             <strong>Email</strong>
-                                                            <input th:field="${newUser.email}" type="text"
+                                                            <input th:value="${newUser.email}" type="text"
                                                                    class="form-control"
-                                                                   placeholder="Email">
+                                                                   placeholder="Email" id="email">
                                                         </div>
                                                         <div class="form-group">
                                                             <strong>Password</strong>
-                                                            <input th:field="${newUser.password}" type="text"
+                                                            <input th:value="${newUser.password}" type="text"
                                                                    class="form-control"
-                                                                   placeholder="Password">
+                                                                   placeholder="Password" id="password">
                                                         </div>
                                                         <div class="form-group">
                                                             <strong>Role</strong>
-                                                            <select class="col" size="2" name="selectRole">
+                                                            <select class="col" size="2" name="selectRole" id="selectRole">
                                                                 <option>ADMIN</option>
                                                                 <option>USER</option>
                                                             </select>
                                                         </div>
                                                         <div class="container">
-                                                            <button type="submit" class="btn btn-success">Add new user
-                                                            </button>
+                                                            <div class="container">
+                                                                <button class="btn btn-success editUser">Add new user</button>
+                                                            </div>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -355,9 +346,10 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+<div class="container">
+    <button class="btn btn-success editUser">Add new user</button>
+</div>
+<script src="http://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
@@ -365,5 +357,6 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+<script src="/click.js"></script>
 </body>
 </html>

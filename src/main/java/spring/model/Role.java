@@ -16,12 +16,6 @@ public class Role implements GrantedAuthority {
     @Column(name = "role")
     private String role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "users_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> users;
-
     public Role(Long id, String role) {
         this.id = id;
         this.role = role;
@@ -50,18 +44,6 @@ public class Role implements GrantedAuthority {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public List<User> getStudents() {
-        return users;
-    }
-
-    public void setStudents(List<User> users) {
-        this.users = users;
-    }
-
-    public Role(List<User> users) {
-        this.users = users;
     }
 
     public Role(String role) {

@@ -1,6 +1,7 @@
 package spring.service;
 
 
+import spring.model.Role;
 import spring.model.User;
 
 import java.sql.SQLException;
@@ -18,5 +19,5 @@ public interface UserService {
 
     User findByUsername(String name);
 
-    void updateUserRole(String role, Long id);
+    Role getUserRole(String role);
 }

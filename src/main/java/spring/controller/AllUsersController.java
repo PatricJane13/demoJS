@@ -12,6 +12,7 @@ import spring.service.UserService;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -22,42 +23,37 @@ public class AllUsersController {
 
     @GetMapping(value = "all")
     public String loginJsp(Model model, Authentication authentication) {
-        model.addAttribute("messages", userService.listUsers());
+//        model.addAttribute("messages", userService.listUsers());
         model.addAttribute("user", authentication.getPrincipal());
         model.addAttribute("newUser", new User());
-        return "users";
-    }
-
-    @GetMapping(value = "addU")
-    public String add(){
-        return "add";
-    }
-
-    @GetMapping(value = "getUpdate")
-    public String getUpdate(@RequestParam("id") String id,
-                            Model model) {
-        User user = userService.getUserById(Long.parseLong(id));
-        model.addAttribute("user", user);
-        return "update";
+        return "users2";
     }
 
     @PostMapping(value = "add")
-    public String addUser(@ModelAttribute User user,
-                          @RequestParam("selectRole") String role) throws IOException, SQLException {
+    public String addUser(@ModelAttribute User user, @RequestParam String selectRole) throws IOException, SQLException {
+        Role role = userService.getUserRole(selectRole);
         List<Role> list = new ArrayList<>();
-        list.add(new Role(role.toUpperCase()));
+        list.add(role);
         user.setRoles(list);
-        userService.add(user);
+        if (!selectRole.isEmpty()) {
+            userService.add(user);
+        }
         return "redirect:/admin/all";
     }
 
     @PostMapping(value = "update")
     public String updateUser(@ModelAttribute User user,
-                             @RequestParam("selectRole") String role) throws IOException {
-        List<Role> list = new ArrayList<>();
-        list.add(new Role(role.toUpperCase()));
+                             @RequestParam String selectRole) throws IOException {
+        Role role = userService.getUserRole(selectRole);
+        User userId = userService.getUserById(user.getId());
+        List<Role> list = userId.getRoles();
+        if (!userId.getRoles().contains(role)) {
+            list.add(role);
+        }
         user.setRoles(list);
-        userService.updateUser(user);
+        if (!selectRole.isEmpty()) {
+            userService.updateUser(user);
+        }
         return "redirect:/admin/all";
     }
 
@@ -65,13 +61,6 @@ public class AllUsersController {
     public String deleteUser(@RequestParam("id") Long id) throws IOException {
         User user = userService.getUserById(id);
         userService.deleteUser(user);
-        return "redirect:/admin/all";
-    }
-
-    @PostMapping(value = "updateRole")
-    public String updateRole(@RequestParam("selectRole") String role,
-                             @RequestParam("id") Long id) throws IOException {
-        userService.updateUserRole(role, id);
         return "redirect:/admin/all";
     }
 }

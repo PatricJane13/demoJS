@@ -18,7 +18,6 @@ public class UserDaoImp implements UserDao{
     @Override
     public void add(User user) {
         entityManager.persist(user);
-        entityManager.persist(user.getRoles().get(0));
     }
 
     @Override
@@ -53,13 +52,18 @@ public class UserDaoImp implements UserDao{
     }
 
     @Override
-    public void updateUserRole(String role, Long id) {
-        User user = getUserById(id);
-        List<Role> list = user.getRoles();
-        Role userRole = list.get(0);
-        Query query = entityManager.createQuery("UPDATE Role Set role =:role WHERE id =:id ");
+    public Role getUserRole(String role) {
+        Query query = entityManager.createQuery("FROM Role WHERE role =:role");
         query.setParameter("role", role);
-        query.setParameter("id", userRole.getId());
-        query.executeUpdate();
+        return (Role)query.getSingleResult();
+    }
+
+    @Override
+    public boolean isExistsRoleByUser(Long id, String role) {
+        User user = getUserById(id);
+
+        Query query = entityManager.createQuery("FROM Role WHERE role =:role");
+        query.setParameter("role", role);
+        return false;
     }
 }

@@ -1,6 +1,7 @@
 package spring.dao;
 
 
+import spring.model.Role;
 import spring.model.User;
 
 import java.sql.SQLException;
@@ -19,5 +20,7 @@ public interface UserDao {
 
     User findByUsername(String name);
 
-    void updateUserRole(String role, Long id);
+    Role getUserRole(String role);
+
+    boolean isExistsRoleByUser(Long id, String role);
 }
