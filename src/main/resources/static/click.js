@@ -18,7 +18,7 @@ $(document).on("click", ".addUser", function () {
                 $('<td>').append($('<span>')).text(data.lastName),
                 $('<td>').append($('<span>')).text(data.email),
                 $('<td>').append($('<span>')).append(s),
-                $('<td>').append($('<button onclick="openModalUpdate('+data.id+')">').text("Edit").attr({
+                $('<td>').append($('<button onclick="openModalUpdate(' + data.id + ')">').text("Edit").attr({
                         "id": "updateButton",
                         "class": "btn btn-info",
                         "data-toggle": "modal",
@@ -123,7 +123,7 @@ function updateUser() {
                 $('<td>').append($('<span>')).text(user.lastName),
                 $('<td>').append($('<span>')).text(user.email),
                 $('<td>').append($('<span>')).append(s),
-                $('<td>').append($('<button onclick="openModalUpdate('+data.id+')">').text("Edit").attr({
+                $('<td>').append($('<button onclick="openModalUpdate(' + data.id + ')">').text("Edit").attr({
                         "id": "updateButton",
                         "class": "btn btn-info",
                         "data-toggle": "modal",

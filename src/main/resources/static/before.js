@@ -20,7 +20,7 @@ function updatePage() {
                     $('<td>').append($('<span>')).text(data[i].lastName),
                     $('<td>').append($('<span>')).text(data[i].email),
                     $('<td>').append($('<span>')).append(s),
-                    $('<td>').append($('<button onclick="openModalUpdate('+data[i].id+')">').text("Edit").attr({
+                    $('<td>').append($('<button onclick="openModalUpdate(' + data[i].id + ')">').text("Edit").attr({
                             "id": "updateButton",
                             "class": "btn btn-info",
                             "data-toggle": "modal",
