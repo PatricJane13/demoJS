@@ -14,20 +14,27 @@ function updatePage() {
                     s += r[j].role + '</br>';
                 }
 
-                body.append('<tr id="' + data[i].id + '">' +
-                    '<td>' + data[i].id + '</td>' +
-                    '<td>' + data[i].firstName + '</td>' +
-                    '<td>' + data[i].lastName + '</td>' +
-                    '<td>' + data[i].email + '</td>' +
-                    '<td>' + s + '</td>' +
-
-                    '<td><button onclick="openModalUpdate('+data[i].id+')" id="updateButton"' + ' class="btn btn-info"' + ' data-toggle="modal"\n' +
-                    'th:data-target="#update">Edit</button></td>' +
-
-                    '<td><button onclick="openModal(' + data[i].id + ')" id="deleteId" data-userByModalId="' + data[i].id + '" class="btn btn-danger deleteButton" ' +
-                    'data-toggle="modal"\n' +
-                    'th:data-target="#delete">Delete</button></td>' +
-                    '</tr>');
+                body.append($('<tr id="' + data[i].id + '">').append(
+                    $('<td>').append($('<span>')).text(data[i].id),
+                    $('<td>').append($('<span>')).text(data[i].firstName),
+                    $('<td>').append($('<span>')).text(data[i].lastName),
+                    $('<td>').append($('<span>')).text(data[i].email),
+                    $('<td>').append($('<span>')).append(s),
+                    $('<td>').append($('<button onclick="openModalUpdate('+data[i].id+')">').text("Edit").attr({
+                            "id": "updateButton",
+                            "class": "btn btn-info",
+                            "data-toggle": "modal",
+                            "th:data-target": "#update" + data[i].id
+                        }).data("user", data[i]),
+                    ),
+                    $('<td>').append($('<button onclick="openModal(' + data[i].id + ')">').text("Delete").attr({
+                        "id": "deleteId",
+                        "data-userByModalId": data[i].id,
+                        "class": "btn btn-danger deleteButton",
+                        "data-toggle": "modal",
+                        "data-target": "#delete" + data[i].id
+                    }).data("user", data[i]))
+                ));
             }
         },
         error: function () {

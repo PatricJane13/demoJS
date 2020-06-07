@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring.model.Role;
 import spring.model.User;
@@ -23,7 +21,7 @@ public class UsersController {
     UserService userService;
 
     @GetMapping(value = "all", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> loginJsp(Model model, Authentication authentication) {
+    public ResponseEntity<List<User>> loginJsp() {
         return new ResponseEntity<>(userService.listUsers(), HttpStatus.OK);
     }
 

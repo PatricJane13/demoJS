@@ -1,11 +1,5 @@
 $(document).on("click", ".addUser", function () {
-    let user = {
-        firstName: $("#firstName").val(),
-        lastName: $("#lastName").val(),
-        email: $("#email").val(),
-        password: $("#password").val(),
-        roles: document.getElementById("selectRole").value
-    };
+    let user = $(".addUserForm").serializeArray();
     $.ajax({
         type: 'POST',
         url: '/api/admin/addUser',
@@ -18,21 +12,27 @@ $(document).on("click", ".addUser", function () {
                 let r = data.roles;
                 s += r[j].role + '</br>';
             }
-
-            body.append('<tr id="' + data.id + '">' +
-                '<td>' + data.id + '</td>' +
-                '<td>' + data.firstName + '</td>' +
-                '<td>' + data.lastName + '</td>' +
-                '<td>' + data.email + '</td>' +
-                '<td>' + s + '</td>' +
-
-                '<td><button id="updateButton"' + ' class="btn btn-info"' + ' data-toggle="modal"\n' +
-                'th:data-target="#update" + data.id>Edit</button></td>' +
-
-                '<td><button onclick="openModal(' + data.id + ')" id="deleteId" data-userByModalId="' + data.id + '" class="btn btn-danger deleteButton" ' +
-                'data-toggle="modal"\n' +
-                'th:data-target="#delete">Delete</button></td>' +
-                '</tr>');
+            body.append($('<tr id="' + data.id + '">').append(
+                $('<td>').append($('<span>')).text(data.id),
+                $('<td>').append($('<span>')).text(data.firstName),
+                $('<td>').append($('<span>')).text(data.lastName),
+                $('<td>').append($('<span>')).text(data.email),
+                $('<td>').append($('<span>')).append(s),
+                $('<td>').append($('<button onclick="openModalUpdate('+data.id+')">').text("Edit").attr({
+                        "id": "updateButton",
+                        "class": "btn btn-info",
+                        "data-toggle": "modal",
+                        "th:data-target": "#update" + data.id
+                    }).data("user", user),
+                ),
+                $('<td>').append($('<button onclick="openModal(' + data.id + ')">').text("Delete").attr({
+                    "id": "deleteId",
+                    "data-userByModalId": data.id,
+                    "class": "btn btn-danger deleteButton",
+                    "data-toggle": "modal",
+                    "data-target": "#delete" + data.id
+                }).data("user", user))
+            ));
             $('#myTab li:first-child a').tab('show');
         }
     });
@@ -91,6 +91,7 @@ function openModalUpdate(id) {
     })
 }
 
+
 function updateUser() {
     let user = {
         id: $('#isUserUpdateButton').data('target'),
@@ -116,20 +117,27 @@ function updateUser() {
                 s += r[j].role + '</br>';
             }
 
-            body.append('<tr id="' + data.id + '">' +
-                '<td>' + data.id + '</td>' +
-                '<td>' + data.firstName + '</td>' +
-                '<td>' + data.lastName + '</td>' +
-                '<td>' + data.email + '</td>' +
-                '<td>' + s + '</td>' +
-
-                '<td><button id="updateButton"' + ' class="btn btn-info"' + ' data-toggle="modal"\n' +
-                'th:data-target="#update" + data.id>Edit</button></td>' +
-
-                '<td><button onclick="openModal(' + data.id + ')" id="deleteId" data-userByModalId="' + data.id + '" class="btn btn-danger deleteButton" ' +
-                'data-toggle="modal"\n' +
-                'th:data-target="#delete">Delete</button></td>' +
-                '</tr>');
+            body.append($('<tr id="' + data.id + '">').append(
+                $('<td>').append($('<span>')).text(user.id),
+                $('<td>').append($('<span>')).text(user.firstName),
+                $('<td>').append($('<span>')).text(user.lastName),
+                $('<td>').append($('<span>')).text(user.email),
+                $('<td>').append($('<span>')).append(s),
+                $('<td>').append($('<button onclick="openModalUpdate('+data.id+')">').text("Edit").attr({
+                        "id": "updateButton",
+                        "class": "btn btn-info",
+                        "data-toggle": "modal",
+                        "th:data-target": "#update" + data.id
+                    }).data("user", user),
+                ),
+                $('<td>').append($('<button onclick="openModal(' + data.id + ')">').text("Delete").attr({
+                    "id": "deleteId",
+                    "data-userByModalId": data.id,
+                    "class": "btn btn-danger deleteButton",
+                    "data-toggle": "modal",
+                    "data-target": "#delete" + data.id
+                }).data("user", user))
+            ));
         },
         error: function () {
             console.log('Error');
